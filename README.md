@@ -1,4 +1,4 @@
-# OTV-B
+# OTW-B
  This repository contains solutions and walkthroughs for the OTV Bandit.<br/> <h3>SPOILER ALERT!</h3> <br/>
 
  <h1> Walkthrough </h1>
