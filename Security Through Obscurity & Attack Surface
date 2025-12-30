@@ -1,0 +1,11 @@
+## Security Through Obscurity
+
+Security through obscurity is a controversial security principle that relies on keeping implementation details, algorithms, or vulnerabilities secret to protect a system, rather than using robust technical defenses. The idea assumes attackers cannot exploit what they do not know—such as custom encryption keys, hidden ports, or proprietary protocols. For example, using non-standard ports or obfuscated code might deter casual scans.
+
+## Attack Surface
+
+Attack surface refers to all potential entry points where an unauthorized user could interact with or compromise a system, including network ports, APIs, user inputs, software interfaces, and physical access points. It quantifies exposure risk: more vectors mean higher vulnerability chances. For instance, a web server with open SSH, HTTP, FTP ports, and unpatched plugins has a larger attack surface than one with only HTTPS firewalled.
+
+Reducing attack surface involves minimization strategies
+
+
