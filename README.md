@@ -182,6 +182,85 @@ Breakdown:
         a-m maps to n-z, and n-z maps to a-m (for lowercase letters).
  <br/> Flag: 7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4
 
+ <h2> Level 12->13 </h2>
+Level Goal:
+
+The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work. Use mkdir with a hard to guess directory name. Or better, use the command “mktemp -d”. Then copy the datafile using cp, and rename it using mv.
+
+
+Command: bandit12@bandit:~$ mktemp -d <br/>
+/tmp/tmp.pTqqzAUhuJ<br/>
+bandit12@bandit:~$ cp data.txt /tmp/tmp.pTqqzAUhuJ<br/>
+bandit12@bandit:~$ cd /tmp/tmp.pTqqzAUhuJ<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data.txt<br/>
+data.txt: ASCII text<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ xxd -r data.txt > data.bin<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data.bin  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data.bin<br/>
+data.bin: gzip compressed data, was "data2.bin", last modified: Tue Oct 14 09:26:00 2025, max compression, from Unix, original size modulo 2^32 572<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ mv data.bin data.gz<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data.gz  data.txt<br/>
+
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ gzip -d data.gz<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data<br/>
+data: bzip2 compressed data, block size = 900k<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ mv data data.bz2<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ bzip2 -d data.bz2<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data<br/>
+data: gzip compressed data, was "data4.bin", last modified: Tue Oct 14 09:26:00 2025, max compression, from Unix, original size modulo 2^32 20480<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ mv data data.gz<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ gzip -d data.gz<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data<br/>
+data: POSIX tar archive (GNU)<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ mv data data.tar<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ tar xvf data.tar<br/>
+data5.bin<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data5.bin<br/>
+data5.bin: POSIX tar archive (GNU)<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ mv data5.bin data.tar<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ tar xvf data.tar<br/>
+data6.bin<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data6.bin<br/>
+data6.bin: bzip2 compressed data, block size = 900k<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ mv data6.bin data.bz2<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ bzip2 -d data.bz2<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/><br/>
+data  data.tar  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data<br/>
+data: POSIX tar archive (GNU)<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ mv data data1.tar<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data1.tar  data.tar  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ tar xvf data1.tar<br/>
+data8.bin<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data8.bin<br/>
+data8.bin: gzip compressed data, was "data9.bin", last modified: Tue Oct 14 09:26:00 2025, max compression, from Unix, original size modulo 2^32 49<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ mv data8.bin data.gz<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data1.tar  data.gz  data.tar  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data  data1.tar  data.tar  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data<br/>
+data: ASCII text<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ xxd -d data > data1.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ ls<br/>
+data  data1.tar  data1.txt  data.tar  data.txt<br/>
+bandit12@bandit:/tmp/tmp.pTqqzAUhuJ$ file data1.txt<br/>
+data1.txt: ASCII text<br/>
+  
+ <br/> Flag: FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
+
+
+ 
+
 
   
 
