@@ -363,8 +363,71 @@ Command: diff passwords.old passwords.new
 Breakdown:
    diff passwords.old passwords.new compares two files line-by-line and shows exactly what changed.
    
- <br/> Flag: x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+ <br/> Flag: x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO <br/>
  NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19 <br/>
+
+
+ <h2> Level 18->19 </h2>
+Level Goal:
+The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.<br/>
+
+Command: ssh -t bandit18@bandit.labs.overthewire.org -p 2220 "cat readme"
+
+Breakdown:
+   
+
+    -t: Forces pseudo-terminal allocation (runs bashrc but allows command execution)
+
+    "cat readme": Executes immediately, prints password before logout script
+
+   
+ <br/> Flag: cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8 <br/>
+
+ 
+ <h2> Level 19->20 </h2>
+Level Goal:
+To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.<br/>
+
+Command: ./bandit20-do cat /etc/bandit_pass/bandit20<br/>
+
+Breakdown:
+   
+
+    ./bandit20-do - setuid binary owned by bandit20 (rws)
+
+    cat - command to execute
+
+    /etc/bandit_pass/bandit20 - target file
+
+
+   
+ <br/> Flag: 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO <br/>
+
+
+ <h2> Level 20->21 </h2>
+Level Goal:
+To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.<br/>
+
+Command: ./bandit20-do cat /etc/bandit_pass/bandit20<br/>
+
+Breakdown:
+   
+
+    ./bandit20-do - setuid binary owned by bandit20 (rws)
+
+    cat - command to execute
+
+    /etc/bandit_pass/bandit20 - target file
+
+
+   
+ <br/> Flag: 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO <br/>
+ 
+
+ 
+
+
+ 
 
  
 
