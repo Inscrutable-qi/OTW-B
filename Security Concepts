@@ -1,0 +1,44 @@
+
+
+<mark> Passwords <mark/> are simple text strings (typically 8-16 characters) sent over the network during authentication. They're easy for humans to remember, universally supported, and require no special setup, but vulnerable to brute force attacks, dictionary attacks, phishing, and keyloggers.<br/>
+
+<mark> SSH keys <mark/> use asymmetric cryptography with public/private key pairs (2048-4096 bits). The private key stays on your machine and is never transmitted, providing computational security against brute force. They enable passwordless automation but require proper file permissions (chmod 600), public key deployment to servers, and file management.<br/>
+<mark>Data Transformation vs. Data Protection <mark/> <br/>
+While both deal with data management, their goals are fundamentally different: one is about usability, the other is about security.
+Data Transformation
+<br/>
+This is the process of converting data from one format or structure into another. It is a key part of the ETL (Extract, Transform, Load) process.
+
+    Goal: To make data compatible with a destination system or easier to analyze.<br/>
+
+    Examples: Changing a date format from MM/DD/YY to YYYY-MM-DD, or aggregating hourly sales into daily totals.<br/>
+
+Data Protection<br/>
+
+This involves the tools and policies used to ensure data remains available, confidential, and intact.<br/>
+
+    Goal: To prevent data loss, corruption, or unauthorized access.<br/>
+
+    Examples: Encryption<br/>
+
+<mark>PATH Injection / PATH Hijacking<mark/>
+<br/>
+An attacker exploits this search order by placing a malicious file with the same name as a common command in a directory that is searched before the legitimate one.
+
+Scenario:
+
+    A system administrator has . (the current directory) or a writable folder like /tmp at the beginning of their PATH.
+
+    The attacker creates a fake script named ls in /tmp that grants them admin privileges.
+
+    When the admin enters /tmp and types ls, the system runs the attacker's fake script instead of the real /bin/ls.
+
+How to Prevent It:
+
+    Absolute Paths: In scripts, use /usr/bin/ls instead of just ls.
+
+    Clean PATHs: Never include the current directory (.) in the PATH variable for root or administrative users.
+
+    Permissions: Ensure that directories listed in the PATH are not writable by non-privileged users.
+
+
