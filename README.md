@@ -258,6 +258,117 @@ data1.txt: ASCII text<br/>
   
  <br/> Flag: FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn
 
+ <h2> Level 13->14 </h2>
+Level Goal:
+
+    The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level. Look at the commands that logged you into previous bandit levels, and find out how to use the key for this level.
+
+
+Command: scp -P 2220 bandit13@bandit.labs.overthewire.org:sshkey.private <br/>
+ssh -i sshkey.private -p 2220 bandit14@bandit.labs.overthewire.org <br/>
+cat /etc/bandit_pass/bandit14<br/>
+ssh, scp, umask, chmod, cat, nc, install
+Breakdown:
+SCP Key Transfer
+
+scp -P 2220 bandit13@bandit.labs.overthewire.org:sshkey.private downloads the private key file from bandit13's ~ directory to your local current directory, authenticating with bandit13's password. This moves the key outside the server where localhost SSH restrictions don't apply.
+SSH Key Authentication
+
+ssh -i sshkey.private -p 2220 bandit14@bandit.labs.overthewire.org tells SSH to use the local sshkey.private file (-i) instead of password auth. Bandit14's authorized_keys contains the matching public key, so the server verifies your private key mathematically and grants access without passwords. Port -p 2220 targets the wargame server.
+Password Retrieval
+
+cat /etc/bandit_pass/bandit14 reads the plaintext password file once authenticated as bandit14, which contains 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e for the next level.
+
+
+ 
+ <br/> Flag: MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS
+
+ <h2> Level 14->15 </h2>
+Level Goal:
+
+The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.
+
+Command: nc localhost 30000 <br/>
+ssh, telnet, nc, openssl, s_client, nmap
+
+Breakdown:
+   Port 30000 runs a netcat listener script checking authentication
+   
+ <br/> Flag: 8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo
+
+ 
+ <h2> Level 15->16 </h2>
+Level Goal:
+
+The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL/TLS encryption.
+
+Helpful note: Getting “DONE”, “RENEGOTIATING” or “KEYUPDATE”? Read the “CONNECTED COMMANDS” section in the manpage.
+
+Command: openssl s_client -connect localhost:30001 <br/>
+
+ssh, telnet, nc, ncat, socat, openssl, s_client, nmap, netstat, ss
+
+Breakdown:
+   
+
+    openssl s_client: SSL/TLS debugging client mode
+
+    -connect localhost:30001: Target host:port (localhost port 30001)
+
+    Creates encrypted tunnel to SSL-wrapped netcat service
+
+   
+ <br/> Flag: kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx
+
+ 
+ <h2> Level 16->17 </h2>
+Level Goal:
+
+The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL/TLS and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.
+
+
+Command: nmap localhost -p 31000-32000 <br/>
+ncat --ssl localhost 31790 <br/>
+vim key<br/>
+chmod 600 key<br/>
+ssh -i key -p 2220 bandit17@bandit.labs.overthewire.org<br/>
+
+
+
+
+ssh, telnet, nc, ncat, socat, openssl, s_client, nmap, netstat, ss
+
+Breakdown:
+   
+
+   nmap localhost -p 31000-32000 scans ports 31000 through 32000 on localhost to find which SSL services listen 
+    -connect localhost:30001: Target host:port (localhost port 30001)
+
+ncat --ssl localhost 31790 connects to port 31790 using SSL encryption (alternative to openssl s_client), then paste bandit16 password for bandit17 key.<br/>
+Now u got the ssh key to login to bandit17.<br/>
+vim key - Opens vim editor to create key file, paste the RSA private key, save with :wq.<br/>
+
+chmod 600 key - Sets private key permissions to owner read/write only (rw-------). SSH rejects keys with broader permissions for security.<br/>
+
+ssh -i key -p 2220 bandit17@bandit.labs.overthewire.org - Connects as bandit17 using the key file (-i) on port 2220.
+<br/>
+
+
+ <h2> Level 17->18 </h2>
+Level Goal:
+There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
+
+Command: diff passwords.old passwords.new
+
+Breakdown:
+   diff passwords.old passwords.new compares two files line-by-line and shows exactly what changed.
+   
+ <br/> Flag: x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO
+ NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19 <br/>
+
+ 
+
+
 
  
 
