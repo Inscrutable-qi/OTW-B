@@ -406,23 +406,99 @@ Breakdown:
 
  <h2> Level 20->21 </h2>
 Level Goal:
-To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.<br/>
+There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
 
-Command: ./bandit20-do cat /etc/bandit_pass/bandit20<br/>
+<br/>
+
+Command: ssh -p 2220 bandit20@bandit.labs.overthewire.org<br/>
+nc -lp 8888 <br/>
+./suconnect 8888<br/>
 
 Breakdown:
    
 
-    ./bandit20-do - setuid binary owned by bandit20 (rws)
+       ssh -p 2220 bandit20@bandit.labs.overthewire.org → Logs into the Bandit server as bandit20.
+    nc -lp 8888 → Starts a Netcat listener on port 8888 to receive incoming connections.
+    Log in as bandit20 in a new terminal and run suconnect
+    ./suconnect 8888 → Runs the suconnect binary, instructing it to connect to port 8888 on localhost.
+Once the connection is established, enter the password for bandit20 in the Netcat listener. If correct, the next level’s password (bandit21) will be sent back.
 
-    cat - command to execute
+   
+ <br/> Flag: EeoULMCra2q0dSkYj561DX7s1CpBuOBt <br/>
 
-    /etc/bandit_pass/bandit20 - target file
+
+ <h2> Level 21->22 </h2>
+Level Goal:
+A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+<br/>
+
+Command: ls -l /etc/cron.d/<br/>
+cat /etc/cron.d/cronjob_bandit22 <br/>
+at /usr/bin/cronjob_bandit22.sh
+<br/>
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+
+
+Breakdown:
+   
+
+       see which cronjobs are settled, we can see this in most cases taking a look at /etc/cron.d/
+    Every minute a bash script located at /usr/bin/cronjob_bandit22.sh
+    This Bash script does two things:
+
+    Changes file permissions – It sets the permissions of /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv to 644, meaning it is readable by everyone but writable only by the owner.
+    Copies the password – It writes the contents of /etc/bandit_pass/bandit22 (the password for bandit22) into the temporary file.
+
+We can see the bandit22 password stored at /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv.
 
 
    
- <br/> Flag: 0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO <br/>
+ <br/> Flag: tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q <br/>
+
  
+
+ <h2> Level 22->23 </h2>
+Level Goal:
+A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+<br/>
+
+Command: echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+<br/>
+
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+
+
+Breakdown:
+   
+
+     The script is part of a cron job that runs periodically. Since the cron job is running as bandit23, it will execute the script with bandit23 as the user. This means:
+
+    The script will generate a filename based on the string I am user bandit23.
+
+    It will copy the password for bandit23 to a file in /tmp with the generated hash as its name.
+
+To find the password for bandit23, you can simulate what the script does:
+
+    Generate the filename:
+    Run the following command to compute the MD5 hash of the string I am user bandit23:
+    echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+
+    This will output a hash like 8ca319486bfbbc3663ea0fbe81326349.
+
+    Locate the file in /tmp:
+    The password for bandit23 will be stored in a file in /tmp with the name of the hash you just generated. For example:
+
+We can see the bandit22 password stored at /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv.
+
+
+   
+ <br/> Flag: 0Zf11ioIjMVN551jX3CmStKLYqjk54Ga <br/>
+ 
+ 
+
+
 
  
 
